@@ -1,8 +1,6 @@
 package org.lsst.ccs.command.dictionary;
 
 import junit.framework.TestCase;
-import org.lsst.ccs.command.cliche.InputConversionEngine;
-import org.lsst.ccs.command.cliche.TokenException;
 import org.lsst.ccs.command.demo.DemoCommands;
 
 /**
@@ -10,22 +8,20 @@ import org.lsst.ccs.command.demo.DemoCommands;
  * @author tonyj
  */
 public class CommandInvokerTest extends TestCase {
-    private SerializableCommandDictionary dict;
+    private CommandSet dict;
 
     @Override
     protected void setUp() throws Exception {
-        DictionaryBuilder builder = new DictionaryBuilder();
-        dict = builder.createCommandDictionary(DemoCommands.class);
+        CommandSetBuilder builder = new CommandSetBuilder();
+        dict = builder.buildCommandSet(new DemoCommands());
     }
     
     /**
      * Test of createCommandDictionary method, of class DictionaryBuilder.
      */
-    public void testInvokeCommand() throws CommandInvoker.CommandInvocationException, TokenException {
-        DemoCommands target = new DemoCommands();
-        CommandInvoker invoker = new CommandInvoker(new InputConversionEngine());
-        Object result = invoker.invoke(dict, target, "getTemperature 5");
-        assertTrue(result instanceof Double);
+    public void testInvokeCommand() throws CommandSet.CommandInvocationException {
+        TokenizedCommand tc = new TokenizedCommand("getTemperature 5");
+        Object invoke = dict.invoke(tc);
     }
 
 }

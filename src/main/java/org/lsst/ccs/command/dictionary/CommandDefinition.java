@@ -7,7 +7,7 @@ import org.lsst.ccs.command.annotations.Command;
 import org.lsst.ccs.command.annotations.Parameter;
 
 /**
- * Encapsulate the information from a single command method and associated
+ * Encapsulate the information for a single command method and associated
  * annotations and parameters.
  *
  * @author turri

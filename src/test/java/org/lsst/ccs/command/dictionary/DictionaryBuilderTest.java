@@ -15,16 +15,16 @@ public class DictionaryBuilderTest extends TestCase {
      * Test of createCommandDictionary method, of class DictionaryBuilder.
      */
     public void testCreateCommandDictionary() {
-        DictionaryBuilder builder = new DictionaryBuilder();
-        SerializableCommandDictionary dict = builder.createCommandDictionary(DemoCommands.class);
+        CommandSetBuilder builder = new CommandSetBuilder();
+        CommandDictionary dict = builder.buildCommandSet(new DemoCommands()).getCommandDictionary();
         assertEquals(1,dict.size());
         CommandDefinition cd = dict.get(0);
         assertEquals(DemoCommands.class.getName(),cd.getTargetName());
         assertEquals(1,cd.getParams().length);
     }
     public void testCreateCommandDictionary2() {
-        DictionaryBuilder builder = new DictionaryBuilder();
-        SerializableCommandDictionary dict = builder.createCommandDictionary(RCMReg.class);
+        CommandSetBuilder builder = new CommandSetBuilder();
+        CommandDictionary dict = builder.buildCommandSet(new RCMReg()).getCommandDictionary();
         assertEquals(3,dict.size());
     }
 }

@@ -100,7 +100,7 @@ public class InputConversionEngine {
     }
 
 
-    private static Object convertArgToElementaryType(String string, Class aClass) throws CLIException {
+    public static Object convertArgToElementaryType(String string, Class aClass) throws CLIException {
         if (aClass.equals(String.class) || aClass.isInstance(string)) {
             return string;
         } else if (aClass.equals(Integer.class) || aClass.equals(Integer.TYPE)) {

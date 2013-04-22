@@ -113,6 +113,8 @@ public class InputConversionEngine {
             return Float.parseFloat(string);
         } else if (aClass.equals(Boolean.class) || aClass.equals(Boolean.TYPE)) {
             return Boolean.parseBoolean(string);
+        } else if (aClass.isEnum()) {
+            return Enum.valueOf(aClass,string);
         } else {
             try {
                 Constructor c = aClass.getConstructor(String.class);

@@ -23,4 +23,8 @@ public class TokenizedCommand {
     int getArgumentCount() {
         return tokens.length - 1;
     }
+
+    public boolean isEmpty() {
+        return tokens.length==1 && tokens[0].isEmpty();
+    }
 }

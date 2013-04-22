@@ -15,5 +15,9 @@ public interface CommandSet {
         CommandInvocationException(String message, Object... args) {
             super(String.format(message, args));
         }
+
+        CommandInvocationException(String message, Throwable t) {
+            super(message, t);
+        }
     }
 }

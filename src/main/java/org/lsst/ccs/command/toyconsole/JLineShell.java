@@ -20,8 +20,9 @@ public class JLineShell {
     private boolean exitRequested;
     private final ConsoleReader reader;
     private final PrintWriter printWriter;
+    private CommandSet.CommandInvocationException lastException;
     
-    JLineShell(CommandSet userCommands) throws IOException {
+    public JLineShell(CommandSet userCommands) throws IOException {
         reader = new ConsoleReader();
         reader.setPrompt(">>>");
         printWriter = new PrintWriter(reader.getOutput(), true);
@@ -49,7 +50,7 @@ public class JLineShell {
                 }
             } catch (CommandSet.CommandInvocationException ex) {
                 reader.println("Error: " + ex.getMessage());
-                ex.printStackTrace(printWriter);
+                lastException = ex;
             }
         }
     }
@@ -61,7 +62,6 @@ public class JLineShell {
     }
     
     public enum SetCommands {
-
         prompt
     };
     
@@ -78,6 +78,10 @@ public class JLineShell {
             for (int i = 0; i < history.size(); i++) {
                 printWriter.printf("%3d: %s\n", i, history.get(i));
             }
+        }
+        @Command(description = "Show the full stacktrace of the most recent error", abbrev = "st")
+        public void stacktrace() {
+            if (lastException != null) lastException.printStackTrace(printWriter);
         }
 
         @Command(description = "Modify various settings")

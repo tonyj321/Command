@@ -1,5 +1,6 @@
 package org.lsst.ccs.command.dictionary;
 
+import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -19,6 +20,10 @@ public class CompositeCommandSet implements CommandSet {
     public void remove(CommandSet set) {
         commands.remove(set);
         dict.remove(set.getCommandDictionary());
+    }
+    
+    public Set<CommandSet> getCommandSets() {
+        return Collections.unmodifiableSet(commands);
     }
 
     @Override

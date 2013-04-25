@@ -72,7 +72,7 @@ public class CommandSetBuilder {
             } catch (CLIException | IllegalAccessException | IllegalArgumentException  ex) {
                 throw new CommandSet.CommandInvocationException("Error invoking command",ex);
             } catch (InvocationTargetException ex) {
-                throw new CommandSet.CommandInvocationException("Error invoking command",ex.getTargetException());
+                throw new CommandSet.CommandInvocationException(ex);
             }
         }
     }

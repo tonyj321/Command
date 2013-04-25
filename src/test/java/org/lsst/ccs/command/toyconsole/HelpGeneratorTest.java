@@ -23,7 +23,7 @@ public class HelpGeneratorTest extends TestCase {
         HelpGenerator help = new HelpGenerator(new PrintWriter(System.out,true),dict);
         help.help();
         CommandSet commands = builder.buildCommandSet(help);
-        assertEquals(1,commands.getCommandDictionary().size());
+        assertEquals(2,commands.getCommandDictionary().size());
         commands.invoke(new TokenizedCommand("help"));
     }
 }

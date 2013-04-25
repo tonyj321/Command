@@ -1,5 +1,7 @@
 package org.lsst.ccs.command.dictionary;
 
+import java.lang.reflect.InvocationTargetException;
+
 /**
  * A CommandSet is a combination of a CommandDictionary plus the ability to
  * invoke commands. 
@@ -19,6 +21,10 @@ public interface CommandSet {
 
         public CommandInvocationException(String message, Throwable t) {
             super(message, t);
+        }
+        
+        public CommandInvocationException(InvocationTargetException t) {
+            super(t.getTargetException().getMessage(),t.getTargetException());
         }
     }
 }

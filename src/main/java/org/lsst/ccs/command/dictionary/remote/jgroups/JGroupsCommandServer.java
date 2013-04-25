@@ -55,7 +55,6 @@ public class JGroupsCommandServer extends CommandServer implements Closeable {
 
         @Override
         public void receive(Message msg) {
-            System.out.println("msg=" + msg);
             final Object obj = msg.getObject();
             if (HELLO.equals(obj)) {
                 Runnable runnable = new Runnable() {

@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import jline.console.ConsoleReader;
 import jline.console.history.History;
 import org.lsst.ccs.command.annotations.Command;
+import org.lsst.ccs.command.annotations.Parameter;
 import org.lsst.ccs.command.dictionary.CommandSet;
 import org.lsst.ccs.command.dictionary.CommandSetBuilder;
 import org.lsst.ccs.command.dictionary.CompositeCommandSet;
@@ -85,7 +86,7 @@ public class JLineShell {
         }
 
         @Command(description = "Modify various settings")
-        public void set(SetCommands what, String value) {
+        public void set(@Parameter(name="item") SetCommands what, @Parameter(name="value") String value) {
             switch (what) {
                 case prompt:
                     reader.setPrompt(value);

@@ -1,4 +1,4 @@
-package org.lsst.ccs.command.toyconsole;
+package org.lsst.ccs.command.dictionary;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -7,9 +7,6 @@ import java.util.Comparator;
 import java.util.List;
 import org.lsst.ccs.command.annotations.Command;
 import org.lsst.ccs.command.annotations.Parameter;
-import org.lsst.ccs.command.dictionary.CommandDefinition;
-import org.lsst.ccs.command.dictionary.CommandDictionary;
-import org.lsst.ccs.command.dictionary.ParameterDefinition;
 
 /**
  *
@@ -20,7 +17,7 @@ public class HelpGenerator {
     private final CommandDictionary dict;
     private final PrintWriter out;
 
-    HelpGenerator(PrintWriter out, CommandDictionary dict) {
+    public HelpGenerator(PrintWriter out, CommandDictionary dict) {
         this.out = out;
         this.dict = dict;
     }

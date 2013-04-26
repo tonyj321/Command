@@ -37,8 +37,8 @@ public class RCMReg {
     /**
      ***************************************************************************
      **
-     ** Processes the READ command *
-     * **************************************************************************
+     ** Processes the READ command
+     ***************************************************************************
      */
     @Command(description = "Read and display registers from the RCM")
     public void read(
@@ -55,9 +55,6 @@ public class RCMReg {
     @Command(description = "Write to registers on the RCM")
     private void write(
             @Parameter(name = "address", description = "The address of the first register to write") int address,
-            @Parameter(name = "value", description = "The value(s) to write") int[] value)
-    {
- 
+            @Parameter(name = "value", description = "The value(s) to write") int[] value) {
     }
-
 }

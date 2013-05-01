@@ -1,5 +1,6 @@
 package org.lsst.ccs.command.dictionary;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -7,6 +8,7 @@ import java.util.List;
 import org.lsst.ccs.command.annotations.Command;
 import org.lsst.ccs.command.cliche.CLIException;
 import org.lsst.ccs.command.cliche.InputConversionEngine;
+import org.lsst.ccs.command.cliche.TokenException;
 
 /**
  * Takes a single object and builds a command set from its annotated methods.
@@ -25,7 +27,7 @@ public class CommandSetBuilder {
         for (Method method : targetClass.getMethods()) {
             Command annotation = method.getAnnotation(Command.class);
             if (annotation != null) {
-                dict.add(new CommandDefinition(targetClass, method, annotation));
+                dict.add(new CommandDefinition(method, annotation));
                 result.add(method);
             }
         }
@@ -65,12 +67,23 @@ public class CommandSetBuilder {
             try {
                 Class<?>[] parameterTypes = method.getParameterTypes();
                 Object[] args = new Object[parameterTypes.length];
+                boolean varArgs = method.isVarArgs();
                 for (int i = 0; i < parameterTypes.length; i++) {
-                    args[i] = InputConversionEngine.convertArgToElementaryType(tc.getArgument(i), parameterTypes[i]);
+                    if (varArgs && i == parameterTypes.length - 1) {
+                        Class varClass = parameterTypes[i];
+                        Class elemClass = varClass.getComponentType();
+                        Object theArray = Array.newInstance(elemClass, tc.getArgumentCount() - args.length + 1);
+                        for (int j = 0; j < Array.getLength(theArray); j++) {
+                            Array.set(theArray, j, InputConversionEngine.convertArgToElementaryType(tc.getArgument(i+j), elemClass));
+                        }
+                        args[i] = theArray;
+                    } else {
+                        args[i] = InputConversionEngine.convertArgToElementaryType(tc.getArgument(i), parameterTypes[i]);
+                    }
                 }
-                return method.invoke(target,args);
-            } catch (CLIException | IllegalAccessException | IllegalArgumentException  ex) {
-                throw new CommandSet.CommandInvocationException("Error invoking command",ex);
+                return method.invoke(target, args);
+            } catch (CLIException | IllegalAccessException | IllegalArgumentException ex) {
+                throw new CommandSet.CommandInvocationException("Error invoking command", ex);
             } catch (InvocationTargetException ex) {
                 throw new CommandSet.CommandInvocationException(ex);
             }
@@ -82,7 +95,9 @@ public class CommandSetBuilder {
         @Override
         public boolean containsCommand(TokenizedCommand tc) {
             for (CommandDefinition def : this) {
-                if (def.getCommandName().equals(tc.getCommand()) && tc.getArgumentCount() == def.getParams().length) {
+                if (def.getCommandName().equals(tc.getCommand())
+                        && (tc.getArgumentCount() == def.getParams().length
+                        || (tc.getArgumentCount() > def.getParams().length && def.isVarArgs()))) {
                     return true;
                 }
             }
@@ -93,7 +108,9 @@ public class CommandSetBuilder {
         public int findCommand(TokenizedCommand tc) {
             int index = 0;
             for (CommandDefinition def : this) {
-                if (def.getCommandName().equals(tc.getCommand()) && tc.getArgumentCount() == def.getParams().length) {
+                if (def.getCommandName().equals(tc.getCommand())
+                        && (tc.getArgumentCount() == def.getParams().length
+                        || (tc.getArgumentCount() > def.getParams().length && def.isVarArgs()))) {
                     return index;
                 }
                 index++;

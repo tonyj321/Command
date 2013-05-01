@@ -14,7 +14,23 @@ public class DemoCommands {
 
     @Command(description = "Get the temperature of a module")
     public double getTemperature(@Parameter(name = "module", description = "module (0-9)") int module) {
-        if (module<0 || module>9) throw new IllegalArgumentException("module");
+        if (module < 0 || module > 9) {
+            throw new IllegalArgumentException("module < 0 or > 9");
+        }
         return Math.random();
+    }
+
+    @Command(description = "Add two arguments")
+    public double add(double a, double b) {
+        return a + b;
+    }
+
+    @Command(description = "Add any number of arguments")
+    public double addAll(double... numbers) {
+        double result = 0;
+        for (double d : numbers) {
+            result += d;
+        }
+        return result;
     }
 }

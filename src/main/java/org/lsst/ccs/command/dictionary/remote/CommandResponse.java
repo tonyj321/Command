@@ -6,7 +6,7 @@ import org.lsst.ccs.command.dictionary.CommandSet;
 /**
  * The result of invoking a command on a remote server. May consist of <b>either</b>
  * a result (which must be Serializable) or an exception (which by definition must 
- * be serializable.
+ * be serializable).
  * @author tonyj
  */
 public class CommandResponse implements Serializable {

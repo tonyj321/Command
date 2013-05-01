@@ -17,10 +17,9 @@ public class DictionaryBuilderTest extends TestCase {
     public void testCreateCommandDictionary() {
         CommandSetBuilder builder = new CommandSetBuilder();
         CommandDictionary dict = builder.buildCommandSet(new DemoCommands()).getCommandDictionary();
-        assertEquals(1,dict.size());
+        assertEquals(3,dict.size());
         CommandDefinition cd = dict.get(0);
-        assertEquals(DemoCommands.class.getName(),cd.getTargetName());
-        assertEquals(1,cd.getParams().length);
+        assertEquals(2,cd.getParams().length);
     }
     public void testCreateCommandDictionary2() {
         CommandSetBuilder builder = new CommandSetBuilder();

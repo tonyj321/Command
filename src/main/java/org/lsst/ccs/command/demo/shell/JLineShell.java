@@ -1,4 +1,4 @@
-package org.lsst.ccs.command.toyconsole;
+package org.lsst.ccs.command.demo.shell;
 
 import org.lsst.ccs.command.dictionary.HelpGenerator;
 import org.lsst.ccs.command.dictionary.DictionaryCompleter;
@@ -17,7 +17,10 @@ import org.lsst.ccs.command.dictionary.CompositeCommandSet;
 import org.lsst.ccs.command.dictionary.TokenizedCommand;
 
 /**
- *
+ * A simple shell for playing with the command parsing classes.
+ * This class is designed to be run from a terminal and uses JLine to 
+ * interact with the user. The command shell has some built-in functionality,
+ * including the ability to provide help, and the ability to do tab completion.
  * @author tonyj
  */
 public class JLineShell {
@@ -28,10 +31,18 @@ public class JLineShell {
     private final PrintWriter printWriter;
     private CommandSet.CommandInvocationException lastException;
 
+    /** Creates a JLineShell with the given set of user commands.
+     * @param userCommands The user defined commands which will be merged with 
+     * the built-in commands provided by the shell itself. The CommandSet passed
+     * in can change dynamically (for example if it is in fact a CompositeCommandSet
+     * commands can be added and removed dynamically).
+     * @throws IOException If something goes horribly wrong.
+     */
     public JLineShell(CommandSet userCommands) throws IOException {
         reader = new ConsoleReader();
         reader.setPrompt(">>>");
         printWriter = new PrintWriter(reader.getOutput(), true);
+        printWriter.println("Type help for list of available commands");
         CompositeCommandSet allCommands = new CompositeCommandSet();
         CommandSetBuilder builder = new CommandSetBuilder();
         allCommands.add(builder.buildCommandSet(new BuiltIns()));
@@ -48,7 +59,11 @@ public class JLineShell {
         };
         reader.addCompleter(completer);
     }
-
+    /**
+     * Run the command shell. This method does not return until the user exits
+     * from the shell.
+     * @throws IOException If something goes horribly wrong. 
+     */
     public void run() throws IOException {
         while (!exitRequested) {
             String command = reader.readLine();
@@ -70,17 +85,16 @@ public class JLineShell {
         }
     }
 
-    public static void main(String[] args) throws IOException {
-        CompositeCommandSet noCommands = new CompositeCommandSet();
-        JLineShell shell = new JLineShell(noCommands);
-        shell.run();
-    }
-
+    /** An enumeration of the arguments to the set command. Note that the 
+     * built in tab completion understands enumerations.
+     */
     public enum SetCommands {
 
         prompt
     };
 
+    /** The set of built in commands.
+     */
     public class BuiltIns {
 
         @Command(description = "Exit from the shell")

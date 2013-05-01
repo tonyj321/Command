@@ -35,6 +35,8 @@ public class HelpGenerator {
             for (ParameterDefinition param : def.getParams()) {
                 builder.append(' ').append(param.getName());
             }
+            if (def.isVarArgs()) builder.append("...");
+            // FIXME: What if builder is > 30 characters
             out.printf("%-30s %s\n", builder, def.getDescription());
         }
     }
@@ -50,12 +52,14 @@ public class HelpGenerator {
                 }
                 out.printf("%-30s %s\n", builder, def.getDescription());
                 for (ParameterDefinition param : def.getParams()) {
-                    out.printf("\t%s %s %s\n",param.getName(),param.getType(),param.getDescription());
+                    out.printf("\t%s %s %s\n", param.getName(), param.getType(), param.getDescription());
                 }
             }
         }
     }
-
+    /**
+     * A comparator used for putting commands into alphabetical order
+     */
     private static class CommandDefinitionComparator implements Comparator<CommandDefinition> {
 
         @Override

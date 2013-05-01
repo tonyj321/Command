@@ -1,4 +1,4 @@
-package org.lsst.ccs.command.dictionary.remote.jgroups;
+package org.lsst.ccs.command.demo.remote.jgroups;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -12,9 +12,7 @@ import org.jgroups.Address;
 import org.jgroups.JChannel;
 import org.jgroups.Message;
 import org.jgroups.ReceiverAdapter;
-import org.lsst.ccs.command.demo.DemoCommands;
 import org.lsst.ccs.command.dictionary.CommandSet;
-import org.lsst.ccs.command.dictionary.CommandSetBuilder;
 import org.lsst.ccs.command.dictionary.TokenizedCommand;
 import org.lsst.ccs.command.dictionary.remote.CommandResponse;
 import org.lsst.ccs.command.dictionary.remote.CommandServer;
@@ -31,7 +29,7 @@ public class JGroupsCommandServer extends CommandServer implements Closeable {
     private final JChannel channel;
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
-    JGroupsCommandServer(CommandSet set) throws Exception {
+    public JGroupsCommandServer(CommandSet set) throws Exception {
         super(set);
         channel = new JChannel();
         channel.setReceiver(new ReceiverAdapterImpl());
@@ -92,8 +90,4 @@ public class JGroupsCommandServer extends CommandServer implements Closeable {
         }
     }
 
-    public static void main(String[] args) throws Exception {
-        CommandSetBuilder builder = new CommandSetBuilder();
-        JGroupsCommandServer server = new JGroupsCommandServer(builder.buildCommandSet(new DemoCommands()));
-    }
 }

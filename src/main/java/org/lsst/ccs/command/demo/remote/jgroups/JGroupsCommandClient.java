@@ -1,4 +1,4 @@
-package org.lsst.ccs.command.dictionary.remote.jgroups;
+package org.lsst.ccs.command.demo.remote.jgroups;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -21,7 +21,6 @@ import org.lsst.ccs.command.dictionary.CompositeCommandSet;
 import org.lsst.ccs.command.dictionary.TokenizedCommand;
 import org.lsst.ccs.command.dictionary.remote.CommandClient;
 import org.lsst.ccs.command.dictionary.remote.CommandResponse;
-import org.lsst.ccs.command.toyconsole.JLineShell;
 
 /**
  * A simple CommandClient using JGroups as the communication mechanism.  
@@ -130,13 +129,6 @@ public class JGroupsCommandClient extends CompositeCommandSet implements Command
             for (Address address : view) {
                 System.out.println(address);
             }
-        }
-    }
-
-    public static void main(String[] args) throws Exception {
-        try (JGroupsCommandClient client = new JGroupsCommandClient()) {
-            JLineShell shell = new JLineShell(client);
-            shell.run();
         }
     }
 }

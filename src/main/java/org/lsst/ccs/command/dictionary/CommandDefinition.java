@@ -7,29 +7,33 @@ import org.lsst.ccs.command.annotations.Command;
 import org.lsst.ccs.command.annotations.Parameter;
 
 /**
- * Encapsulate the information for a single command method and associated
- * annotations and parameters.
- *
+ * Encapsulate the dictionary information for a single command and parameters.
+ * This class is serializable for use in client-server applications, so does not
+ * contain maintain any references to Class or Method objects which may not be
+ * available in a remote client.
  * @author turri
  */
 public class CommandDefinition implements Serializable {
 
-    private final String methodName;
     private final String description;
     private final String abbreviation;
     private final ParameterDefinition[] params;
-    private final String targetName;
     private final Command.CommandType type;
     private final String name;
-
-    CommandDefinition(Class target, Method method, Command annotation) {
-        this.methodName = method.toGenericString();
-        this.targetName = target.getName();
+    private final boolean hasVarArgs;
+    /** 
+     * Create a command definition from a method and associated annotation.
+     * @param method The method providing the command implementation
+     * @param annotation The annotation on the method
+     */
+    
+    CommandDefinition(Method method, Command annotation) {
         this.description = annotation.description();
         this.abbreviation = annotation.abbrev();
         this.type = annotation.type();
         this.name = annotation.name().isEmpty() ? method.getName() : annotation.name();
-
+        this.hasVarArgs = method.isVarArgs();
+        
         Class[] types = method.getParameterTypes();
         Annotation[][] parAnnotations = method.getParameterAnnotations();
 
@@ -47,14 +51,10 @@ public class CommandDefinition implements Serializable {
                     break;
                 }
             }
-            params[i] = new ParameterDefinition(parName, types[i], parDescription, i);
+            params[i] = new ParameterDefinition(parName, types[i], parDescription);
         }
 
 
-    }
-
-    public String getMethodName() {
-        return methodName;
     }
 
     public String getDescription() {
@@ -69,10 +69,6 @@ public class CommandDefinition implements Serializable {
         return params;
     }
 
-    public String getTargetName() {
-        return targetName;
-    }
-
     public Command.CommandType getType() {
         return type;
     }
@@ -81,22 +77,7 @@ public class CommandDefinition implements Serializable {
         return name;
     }
 
-    @Override
-    public String toString() {
-        String out = "Method " + methodName + " with ";
-        if (params.length == 0) {
-            out += "no parameters\n";
-        } else {
-            out += params.length + " parameters: \n";
-            for (int i = 0; i < params.length; i++) {
-                out += params[i].getName() + " " + params[i].getType() + " " + params[i].getPosition() + " " + params[i].getDescription() + "\n";
-            }
-        }
-        return out;
-    }
-
-    boolean isVarArgs() {
-        // FIXME: Need to implement
-        return false;
+    public boolean isVarArgs() {
+        return hasVarArgs;
     }
 }

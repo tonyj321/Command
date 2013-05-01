@@ -1,13 +1,8 @@
 package org.lsst.ccs.command.dictionary;
 
-import org.lsst.ccs.command.dictionary.HelpGenerator;
 import java.io.PrintWriter;
 import junit.framework.TestCase;
 import org.lsst.ccs.command.demo.RCMReg;
-import org.lsst.ccs.command.dictionary.CommandDictionary;
-import org.lsst.ccs.command.dictionary.CommandSet;
-import org.lsst.ccs.command.dictionary.CommandSetBuilder;
-import org.lsst.ccs.command.dictionary.TokenizedCommand;
 
 /**
  *

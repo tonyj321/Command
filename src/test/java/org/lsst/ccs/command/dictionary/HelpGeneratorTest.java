@@ -1,4 +1,4 @@
-package org.lsst.ccs.command.toyconsole;
+package org.lsst.ccs.command.dictionary;
 
 import org.lsst.ccs.command.dictionary.HelpGenerator;
 import java.io.PrintWriter;

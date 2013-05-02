@@ -1,4 +1,4 @@
-package org.lsst.ccs.command.dictionary;
+package org.lsst.ccs.command;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -9,30 +9,35 @@ import org.lsst.ccs.command.annotations.Command;
 import org.lsst.ccs.command.annotations.Parameter;
 
 /**
- *
+ * Provides help information based on information in a command dictionary.
  * @author tonyj
  */
 public class HelpGenerator {
 
-    private final CommandDictionary dict;
+    private final Dictionary dict;
     private final PrintWriter out;
 
-    public HelpGenerator(PrintWriter out, CommandDictionary dict) {
+    /**
+     * Create a HelpGenerator
+     * @param out Where the output of the help command should be sent
+     * @param dict The dictionary used to provide help
+     */
+    public HelpGenerator(PrintWriter out, Dictionary dict) {
         this.out = out;
         this.dict = dict;
     }
 
     @Command(description = "List available commands")
     public void help() {
-        List<CommandDefinition> sorted = new ArrayList<>();
-        for (CommandDefinition def : dict) {
+        List<DictionaryCommand> sorted = new ArrayList<>();
+        for (DictionaryCommand def : dict) {
             sorted.add(def);
         }
         Collections.sort(sorted, new CommandDefinitionComparator());
-        for (CommandDefinition def : sorted) {
+        for (DictionaryCommand def : sorted) {
             StringBuilder builder = new StringBuilder();
             builder.append(def.getCommandName());
-            for (ParameterDefinition param : def.getParams()) {
+            for (DictionaryParameter param : def.getParams()) {
                 builder.append(' ').append(param.getName());
             }
             if (def.isVarArgs()) builder.append("...");
@@ -43,15 +48,15 @@ public class HelpGenerator {
 
     @Command(description = "Show help for a single command")
     public void help(@Parameter(name = "command") String command) {
-        for (CommandDefinition def : dict) {
+        for (DictionaryCommand def : dict) {
             if (def.getCommandName().equals(command)) {
                 StringBuilder builder = new StringBuilder();
                 builder.append(def.getCommandName());
-                for (ParameterDefinition param : def.getParams()) {
+                for (DictionaryParameter param : def.getParams()) {
                     builder.append(' ').append(param.getName());
                 }
                 out.printf("%-30s %s\n", builder, def.getDescription());
-                for (ParameterDefinition param : def.getParams()) {
+                for (DictionaryParameter param : def.getParams()) {
                     out.printf("\t%s %s %s\n", param.getName(), param.getType(), param.getDescription());
                 }
             }
@@ -60,10 +65,10 @@ public class HelpGenerator {
     /**
      * A comparator used for putting commands into alphabetical order
      */
-    private static class CommandDefinitionComparator implements Comparator<CommandDefinition> {
+    private static class CommandDefinitionComparator implements Comparator<DictionaryCommand> {
 
         @Override
-        public int compare(CommandDefinition o1, CommandDefinition o2) {
+        public int compare(DictionaryCommand o1, DictionaryCommand o2) {
             return o1.getCommandName().compareTo(o2.getCommandName());
         }
     }

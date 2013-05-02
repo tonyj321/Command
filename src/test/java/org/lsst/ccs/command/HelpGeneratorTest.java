@@ -1,4 +1,4 @@
-package org.lsst.ccs.command.dictionary;
+package org.lsst.ccs.command;
 
 import java.io.PrintWriter;
 import junit.framework.TestCase;
@@ -13,9 +13,9 @@ public class HelpGeneratorTest extends TestCase {
     /**
      * Test of help method, of class HelpGenerator.
      */
-    public void testHelp() throws CommandSet.CommandInvocationException {
+    public void testHelp() throws CommandInvocationException {
         CommandSetBuilder builder = new CommandSetBuilder();
-        CommandDictionary dict = builder.buildCommandSet(new RCMReg()).getCommandDictionary();        
+        Dictionary dict = builder.buildCommandSet(new RCMReg()).getCommandDictionary();        
         HelpGenerator help = new HelpGenerator(new PrintWriter(System.out,true),dict);
         help.help();
         CommandSet commands = builder.buildCommandSet(help);

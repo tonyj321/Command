@@ -1,6 +1,6 @@
-package org.lsst.ccs.command.dictionary.remote;
+package org.lsst.ccs.command.remote;
 
-import org.lsst.ccs.command.dictionary.CommandSet;
+import org.lsst.ccs.command.CommandSet;
 
 /**
  * A CommandSet which acts as a proxy for a remote CommandServer. 

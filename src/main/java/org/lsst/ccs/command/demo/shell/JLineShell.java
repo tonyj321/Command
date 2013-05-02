@@ -1,7 +1,7 @@
 package org.lsst.ccs.command.demo.shell;
 
-import org.lsst.ccs.command.dictionary.HelpGenerator;
-import org.lsst.ccs.command.dictionary.DictionaryCompleter;
+import org.lsst.ccs.command.HelpGenerator;
+import org.lsst.ccs.command.DictionaryCompleter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -10,11 +10,12 @@ import jline.console.completer.Completer;
 import jline.console.history.History;
 import org.lsst.ccs.command.annotations.Command;
 import org.lsst.ccs.command.annotations.Parameter;
-import org.lsst.ccs.command.dictionary.CommandDictionary;
-import org.lsst.ccs.command.dictionary.CommandSet;
-import org.lsst.ccs.command.dictionary.CommandSetBuilder;
-import org.lsst.ccs.command.dictionary.CompositeCommandSet;
-import org.lsst.ccs.command.dictionary.TokenizedCommand;
+import org.lsst.ccs.command.Dictionary;
+import org.lsst.ccs.command.CommandInvocationException;
+import org.lsst.ccs.command.CommandSet;
+import org.lsst.ccs.command.CommandSetBuilder;
+import org.lsst.ccs.command.CompositeCommandSet;
+import org.lsst.ccs.command.TokenizedCommand;
 
 /**
  * A simple shell for playing with the command parsing classes.
@@ -29,7 +30,7 @@ public class JLineShell {
     private boolean exitRequested;
     private final ConsoleReader reader;
     private final PrintWriter printWriter;
-    private CommandSet.CommandInvocationException lastException;
+    private CommandInvocationException lastException;
 
     /** Creates a JLineShell with the given set of user commands.
      * @param userCommands The user defined commands which will be merged with 
@@ -47,7 +48,7 @@ public class JLineShell {
         CommandSetBuilder builder = new CommandSetBuilder();
         allCommands.add(builder.buildCommandSet(new BuiltIns()));
         allCommands.add(userCommands);
-        CommandDictionary commandDictionary = allCommands.getCommandDictionary();
+        Dictionary commandDictionary = allCommands.getCommandDictionary();
         final DictionaryCompleter dictionaryCompleter = new DictionaryCompleter(commandDictionary);
         allCommands.add(builder.buildCommandSet(new HelpGenerator(printWriter, commandDictionary)));
         commands = allCommands;
@@ -78,7 +79,7 @@ public class JLineShell {
                         reader.println("result=" + result);
                     }
                 }
-            } catch (CommandSet.CommandInvocationException ex) {
+            } catch (    CommandInvocationException ex) {
                 reader.println("Error: " + ex.getMessage());
                 lastException = ex;
             }

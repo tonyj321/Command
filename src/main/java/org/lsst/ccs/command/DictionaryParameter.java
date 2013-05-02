@@ -1,4 +1,4 @@
-package org.lsst.ccs.command.dictionary;
+package org.lsst.ccs.command;
 
 import java.io.Serializable;
 
@@ -6,14 +6,14 @@ import java.io.Serializable;
  * Encapsulate the dictionary information about a single parameter.
  * @author turri
  */
-public class ParameterDefinition implements Serializable {
+public class DictionaryParameter implements Serializable {
     
     private String name;
     private String description;
     private String type;
 
     
-    ParameterDefinition(String name, Class type, String description) {
+    DictionaryParameter(String name, Class type, String description) {
         this.name = name;
         this.type = type.getSimpleName();
         this.description = description;

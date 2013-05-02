@@ -1,4 +1,4 @@
-package org.lsst.ccs.command.dictionary;
+package org.lsst.ccs.command;
 
 /**
  * A command dictionary contains all the information needed to provide
@@ -8,7 +8,7 @@ package org.lsst.ccs.command.dictionary;
  * CommandDefinitions, plus a few convenience methods.
  * @author tonyj
  */
-public interface CommandDictionary extends Iterable<CommandDefinition> {
+public interface Dictionary extends Iterable<DictionaryCommand> {
 
     /**
      * Test if a given command is present in a dictionary.
@@ -37,6 +37,6 @@ public interface CommandDictionary extends Iterable<CommandDefinition> {
      * @return The command found
      * @throws IndexOutOfBoundsException If the index is out of bounds.
      */
-    public CommandDefinition get(int index) throws IndexOutOfBoundsException;
+    public DictionaryCommand get(int index) throws IndexOutOfBoundsException;
     
 }

@@ -14,13 +14,14 @@ import org.jgroups.Message;
 import org.jgroups.ReceiverAdapter;
 import org.jgroups.View;
 import org.lsst.ccs.command.annotations.Command;
-import org.lsst.ccs.command.dictionary.CommandDictionary;
-import org.lsst.ccs.command.dictionary.CommandSet;
-import org.lsst.ccs.command.dictionary.CommandSetBuilder;
-import org.lsst.ccs.command.dictionary.CompositeCommandSet;
-import org.lsst.ccs.command.dictionary.TokenizedCommand;
-import org.lsst.ccs.command.dictionary.remote.CommandClient;
-import org.lsst.ccs.command.dictionary.remote.CommandResponse;
+import org.lsst.ccs.command.Dictionary;
+import org.lsst.ccs.command.CommandInvocationException;
+import org.lsst.ccs.command.CommandSet;
+import org.lsst.ccs.command.CommandSetBuilder;
+import org.lsst.ccs.command.CompositeCommandSet;
+import org.lsst.ccs.command.TokenizedCommand;
+import org.lsst.ccs.command.remote.CommandClient;
+import org.lsst.ccs.command.remote.CommandResponse;
 
 /**
  * A simple CommandClient using JGroups as the communication mechanism.  
@@ -76,9 +77,9 @@ public class JGroupsCommandClient extends CompositeCommandSet implements Command
         @Override
         public void receive(Message msg) {
             Object obj = msg.getObject();
-            if (obj instanceof CommandDictionary) {
+            if (obj instanceof Dictionary) {
                 Address src = msg.getSrc();
-                add(new CommandSetImplementation(src, (CommandDictionary) obj));
+                add(new CommandSetImplementation(src, (Dictionary) obj));
             } else if (obj instanceof CommandResponse) {
                 try {
                     exchanger.exchange((CommandResponse) obj);
@@ -92,15 +93,15 @@ public class JGroupsCommandClient extends CompositeCommandSet implements Command
     private class CommandSetImplementation implements CommandSet {
 
         private final Address src;
-        private final CommandDictionary dict;
+        private final Dictionary dict;
 
-        private CommandSetImplementation(Address src, CommandDictionary dict) {
+        private CommandSetImplementation(Address src, Dictionary dict) {
             this.src = src;
             this.dict = dict;
         }
 
         @Override
-        public CommandDictionary getCommandDictionary() {
+        public Dictionary getCommandDictionary() {
             return dict;
         }
 

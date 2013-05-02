@@ -1,6 +1,6 @@
-package org.lsst.ccs.command.dictionary.remote;
+package org.lsst.ccs.command.remote;
 
-import org.lsst.ccs.command.dictionary.CommandSet;
+import org.lsst.ccs.command.CommandSet;
 
 /**
  * A command server which waits to receive commands from a remote client

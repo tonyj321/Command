@@ -12,10 +12,11 @@ import org.jgroups.Address;
 import org.jgroups.JChannel;
 import org.jgroups.Message;
 import org.jgroups.ReceiverAdapter;
-import org.lsst.ccs.command.dictionary.CommandSet;
-import org.lsst.ccs.command.dictionary.TokenizedCommand;
-import org.lsst.ccs.command.dictionary.remote.CommandResponse;
-import org.lsst.ccs.command.dictionary.remote.CommandServer;
+import org.lsst.ccs.command.CommandInvocationException;
+import org.lsst.ccs.command.CommandSet;
+import org.lsst.ccs.command.TokenizedCommand;
+import org.lsst.ccs.command.remote.CommandResponse;
+import org.lsst.ccs.command.remote.CommandServer;
 
 /**
  * A server to make a CommandSet available remotely using JGroups.
@@ -29,6 +30,10 @@ public class JGroupsCommandServer extends CommandServer implements Closeable {
     private final JChannel channel;
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
+    /** Make commands available to a jgroups cluster.
+     * @param set The commands to publish
+     * @throws Exception If something goes wrong setting up the connection.
+     */
     public JGroupsCommandServer(CommandSet set) throws Exception {
         super(set);
         channel = new JChannel();
@@ -72,7 +77,7 @@ public class JGroupsCommandServer extends CommandServer implements Closeable {
                             Object result = getCommandSet().invoke((TokenizedCommand) obj);
                             CommandResponse response = new CommandResponse((Serializable) result);
                             send(new Message(src, response));
-                        } catch (CommandSet.CommandInvocationException ex) {
+                        } catch (                CommandInvocationException ex) {
                             send(new Message(src, new CommandResponse(ex)));
                         }
                     }

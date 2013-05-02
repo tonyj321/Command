@@ -2,7 +2,7 @@ package org.lsst.ccs.command.demo.main;
 
 import java.io.IOException;
 import org.lsst.ccs.command.demo.DemoCommands;
-import org.lsst.ccs.command.dictionary.CommandSetBuilder;
+import org.lsst.ccs.command.CommandSetBuilder;
 import org.lsst.ccs.command.demo.remote.jgroups.JGroupsCommandClient;
 import org.lsst.ccs.command.demo.remote.jgroups.JGroupsCommandServer;
 import org.lsst.ccs.command.demo.shell.JLineShell;

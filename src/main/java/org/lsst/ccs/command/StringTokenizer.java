@@ -1,15 +1,20 @@
-package org.lsst.ccs.command.dictionary;
+package org.lsst.ccs.command;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * Converts an input command into a series of tokens.
  * @author tonyj
  */
 class StringTokenizer {
 
+    /**
+     * Do we really need this, is was used by cliche to by able to provide
+     * feedback on where in the command line and illegal token was found, but
+     * we do not currently use this functionality.
+     */
     static class Token implements Serializable {
 
         private int index;

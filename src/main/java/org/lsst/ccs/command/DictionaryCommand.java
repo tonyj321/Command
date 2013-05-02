@@ -1,4 +1,4 @@
-package org.lsst.ccs.command.dictionary;
+package org.lsst.ccs.command;
 
 import java.io.Serializable;
 import java.lang.annotation.Annotation;
@@ -13,11 +13,11 @@ import org.lsst.ccs.command.annotations.Parameter;
  * available in a remote client.
  * @author turri
  */
-public class CommandDefinition implements Serializable {
+public class DictionaryCommand implements Serializable {
 
     private final String description;
     private final String abbreviation;
-    private final ParameterDefinition[] params;
+    private final DictionaryParameter[] params;
     private final Command.CommandType type;
     private final String name;
     private final boolean hasVarArgs;
@@ -27,7 +27,7 @@ public class CommandDefinition implements Serializable {
      * @param annotation The annotation on the method
      */
     
-    CommandDefinition(Method method, Command annotation) {
+    DictionaryCommand(Method method, Command annotation) {
         this.description = annotation.description();
         this.abbreviation = annotation.abbrev();
         this.type = annotation.type();
@@ -37,7 +37,7 @@ public class CommandDefinition implements Serializable {
         Class[] types = method.getParameterTypes();
         Annotation[][] parAnnotations = method.getParameterAnnotations();
 
-        params = new ParameterDefinition[types.length];
+        params = new DictionaryParameter[types.length];
 
         for (int i = 0; i < types.length; i++) {
 
@@ -51,7 +51,7 @@ public class CommandDefinition implements Serializable {
                     break;
                 }
             }
-            params[i] = new ParameterDefinition(parName, types[i], parDescription);
+            params[i] = new DictionaryParameter(parName, types[i], parDescription);
         }
 
 
@@ -65,7 +65,7 @@ public class CommandDefinition implements Serializable {
         return abbreviation;
     }
 
-    public ParameterDefinition[] getParams() {
+    public DictionaryParameter[] getParams() {
         return params;
     }
 

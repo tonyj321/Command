@@ -1,8 +1,8 @@
-package org.lsst.ccs.command.dictionary;
+package org.lsst.ccs.command;
 
 import java.io.Serializable;
 import java.util.List;
-import org.lsst.ccs.command.dictionary.StringTokenizer.Token;
+import org.lsst.ccs.command.StringTokenizer.Token;
 
 /**
  * A command line that has been split into tokens. This could in future be expanded

@@ -1,4 +1,4 @@
-package org.lsst.ccs.command.dictionary;
+package org.lsst.ccs.command;
 
 import java.util.List;
 import static junit.framework.Assert.assertEquals;

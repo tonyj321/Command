@@ -9,7 +9,7 @@ import org.lsst.ccs.command.annotations.Parameter;
 /**
  * Encapsulate the dictionary information for a single command and parameters.
  * This class is serializable for use in client-server applications, so does not
- * contain maintain any references to Class or Method objects which may not be
+ * maintain any references to Class or Method objects which may not be
  * available in a remote client.
  * @author turri
  */
@@ -51,7 +51,8 @@ public class DictionaryCommand implements Serializable {
                     break;
                 }
             }
-            params[i] = new DictionaryParameter(parName, types[i], parDescription);
+            Class parameterType = hasVarArgs && i==types.length-1 ? types[i].getComponentType() : types[i];
+            params[i] = new DictionaryParameter(parName, parameterType, parDescription);
         }
 
 

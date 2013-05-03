@@ -19,6 +19,12 @@ public class CommandSetBuilder {
     private DictionaryBuilder dictBuilder = new DictionaryBuilder();
     private InputConversionEngine engine = new InputConversionEngine();
 
+    /**
+     * Build a command set from an objects annotations. 
+     * @param object The object from which annotations will be extracted, and to
+     * which invocation requests will be forwarded.
+     * @return A CommandSet representing the commands found in the object.
+     */
     public CommandSet buildCommandSet(Object object) {
         Class targetClass = object.getClass();
         Dictionary dict = dictBuilder.build(targetClass);
@@ -52,7 +58,7 @@ public class CommandSetBuilder {
         public Object invoke(TokenizedCommand tc) throws CommandInvocationException {
             int index = dict.findCommand(tc);
             if (index >= 0) {
-                return invoke(target, methods.get(index), dict.get(index), tc);
+                return invoke(target, methods.get(index), tc);
             }
             throw new CommandInvocationException("No handler found for command %s with %d arguments", tc.getCommand(), tc.getArgumentCount());
         }
@@ -61,7 +67,7 @@ public class CommandSetBuilder {
             methods.add(method);
         }
 
-        private Object invoke(Object target, Method method, DictionaryCommand def, TokenizedCommand tc) throws CommandInvocationException {
+        private Object invoke(Object target, Method method, TokenizedCommand tc) throws CommandInvocationException {
             try {
                 Class<?>[] parameterTypes = method.getParameterTypes();
                 Object[] args = new Object[parameterTypes.length];

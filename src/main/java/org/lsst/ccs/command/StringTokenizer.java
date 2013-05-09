@@ -126,7 +126,7 @@ class StringTokenizer {
                     break;
 
                 default:
-                    assert false : "Unknown state in Shell.tokenize() state machine";
+                    assert false : "Unknown state in StringTokenizer state machine";
                     break;
             }
         }

@@ -5,8 +5,9 @@ import java.util.List;
 import org.lsst.ccs.command.StringTokenizer.Token;
 
 /**
- * A command line that has been split into tokens. This could in future be expanded
- * to also support command options (beginning with - or --)
+ * A command line that has been split into tokens. This could in future be
+ * expanded to also support command options (beginning with - or --)
+ *
  * @author tonyj
  */
 public class TokenizedCommand implements Serializable {
@@ -23,6 +24,10 @@ public class TokenizedCommand implements Serializable {
 
     String getArgument(int index) {
         return tokens.get(index + 1).getString();
+    }
+
+    int getArgumentIndex(int index) {
+        return tokens.get(index + 1).getIndex();
     }
 
     int getArgumentCount() {

@@ -33,4 +33,19 @@ public class DemoCommands {
         }
         return result;
     }
+    
+    public enum Day {
+        SUNDAY, MONDAY, TUESDAY, WEDNESDAY,
+        THURSDAY, FRIDAY, SATURDAY 
+    }
+    @Command(description = "Convert day of week to an ordinal")
+    public int dayOfWeek(@Parameter(name="Day") Day day) {
+        return day.ordinal();
+    }
+    
+    @Command(description = "Always generates an error")
+    public void error() {
+        throw new UnsupportedOperationException("This command not allowed");
+    }
+    
 }

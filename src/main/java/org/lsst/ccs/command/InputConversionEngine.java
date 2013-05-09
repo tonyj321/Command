@@ -34,11 +34,13 @@ class InputConversionEngine {
                 return Float.parseFloat(arg);
             } else if (type.equals(Boolean.class) || type.equals(Boolean.TYPE)) {
                 // Boolean.parseBoolean treats anything it does not recognize as true, which does not 
-                // see appropriate here, so instead
+                // seem appropriate here, so instead
                 if ("true".equalsIgnoreCase(arg)) return Boolean.TRUE;
                 if ("false".equalsIgnoreCase(arg)) return Boolean.FALSE;
                 throw new CommandInvocationException("Can't convert %s to Boolean",arg);
             } else if (type.isEnum()) {
+                //FIXME: This is case sensitive, is this what we want?
+                //FIXME: Would be nice to generate exception with list of legal values?
                 return Enum.valueOf(type, arg);
             } else {
                 Constructor c = type.getConstructor(String.class);

@@ -22,6 +22,10 @@ public class TokenizedCommand implements Serializable {
         return tokens.get(0).getString();
     }
 
+    int getCommandIndex() {
+        return tokens.get(0).getIndex();
+    }
+
     String getArgument(int index) {
         return tokens.get(index + 1).getString();
     }

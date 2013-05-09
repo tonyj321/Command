@@ -59,6 +59,7 @@ public class JLineShell {
             }
         };
         reader.addCompleter(completer);
+        reader.setCompletionHandler(new CommandCompletionHandler());
     }
     /**
      * Run the command shell. This method does not return until the user exits

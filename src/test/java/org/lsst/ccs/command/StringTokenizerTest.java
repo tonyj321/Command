@@ -24,12 +24,14 @@ public class StringTokenizerTest extends TestCase {
         List<StringTokenizer.Token> tokenize = StringTokenizer.tokenize("abc");
         assertEquals(1, tokenize.size());
         assertEquals("abc", tokenize.get(0).getString());
+        assertEquals(0,tokenize.get(0).getIndex());
     }
 
     public void testTokenize3() {
         List<StringTokenizer.Token> tokenize = StringTokenizer.tokenize(" \t  abc \t  ");
         assertEquals(1, tokenize.size());
         assertEquals("abc", tokenize.get(0).getString());
+        assertEquals(4,tokenize.get(0).getIndex());
     }
 
     public void testTokenize4() {
@@ -47,6 +49,7 @@ public class StringTokenizerTest extends TestCase {
         assertEquals(2, tokenize.size());
         assertEquals("Hello", tokenize.get(0).getString());
         assertEquals("World", tokenize.get(1).getString());
+        assertEquals(7, tokenize.get(1).getIndex());
     }
 
     public void testTokenize7() {

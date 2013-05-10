@@ -52,12 +52,7 @@ public class DictionaryCompleter {
             SortedSet<CharSequence> set = new TreeSet<>();
             for (DictionaryCommand def : dict) {
                 String command = def.getCommandName();
-                // If there are more parameters to come, then add a space
-                // on the end of the line, so that the cursor will be 
-                // positioned after the space, ready for the next argument.
-                if (def.getParams().length > 0) {
-                    command += " ";
-                }
+                command += " ";
                 set.add(command);
             }
             list.addAll(set);
@@ -67,12 +62,7 @@ public class DictionaryCompleter {
             for (DictionaryCommand def : dict) {
                 String command = def.getCommandName();
                 if (command.startsWith(prefix)) {
-                    // If there are more parameters to come, then add a space
-                    // on the end of the line, so that the cursor will be 
-                    // positioned after the space, ready for the next argument.
-                    if (def.getParams().length > 0) {
-                        command += " ";
-                    }
+                    command += " ";
                     set.add(command);
                 }
             }
@@ -92,9 +82,7 @@ public class DictionaryCompleter {
                         // The argument is an enumeration, list possible values    
                         for (String value : values) {
                             if (value.startsWith(lastArg)) {
-                                if (def.getParams().length > argCount) {
-                                    value += " ";
-                                }
+                                value += " ";
                                 list.add(value);
                             }
                         }

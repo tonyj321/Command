@@ -7,7 +7,7 @@ import jline.console.completer.CandidateListCompletionHandler;
 
 /**
  * Extend JLine's built-in completion handler to handle giving
- * information on a specific parameters. 
+ * information on specific parameters. 
  * @author tonyj
  */
 class CommandCompletionHandler extends CandidateListCompletionHandler {

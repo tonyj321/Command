@@ -3,6 +3,8 @@ package org.lsst.ccs.command.demo.main;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -11,6 +13,7 @@ import org.lsst.ccs.command.CommandSetBuilder;
 import org.lsst.ccs.command.demo.remote.jgroups.JGroupsCommandClient;
 import org.lsst.ccs.command.demo.remote.jgroups.JGroupsCommandServer;
 import org.lsst.ccs.command.demo.shell.JLineShell;
+import org.lsst.ccs.command.demo.shell.SwingShell;
 
 /**
  * This main class acts as a steering class for the demos.
@@ -42,6 +45,7 @@ public class Main {
             JFrame frame = new JFrame("CCS Command Demo");
             frame.setContentPane(gui);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setLocationByPlatform(true);
             frame.pack();
             frame.setVisible(true);
         }
@@ -84,30 +88,45 @@ public class Main {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            String command = e.getActionCommand();
-            switch (command) {
-                case "shell":
-                    runShell();
-                    break;
-                case "client":
-                    runClient();
-                    break;
-                case "server":
-                    runServer();
-                    break;
-            }           
+            try {
+                String command = e.getActionCommand();
+                switch (command) {
+                    case "shell":
+                        runShell();
+                        break;
+                    case "client":
+                        runClient();
+                        break;
+                    case "server":
+                        runServer();
+                        break;
+                }
+            } catch (IOException ex) {
+                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
         }
-        
-        private void runShell() {
-            
+
+        private void runShell() throws IOException {
+            CommandSetBuilder builder = new CommandSetBuilder();
+            final SwingShell swingShell = new SwingShell(builder.buildCommandSet(new DemoCommands()), "Swing Shell");
+            Thread t = new Thread() {
+                @Override
+                public void run() {
+                    try {
+                        swingShell.run();
+                    } catch (IOException ex) {
+                        Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            };
+            t.start();
         }
-        
+
         private void runClient() {
-            
         }
-        
+
         private void runServer() {
-            
         }
 
         private void addButton(JButton jButton, String command) {

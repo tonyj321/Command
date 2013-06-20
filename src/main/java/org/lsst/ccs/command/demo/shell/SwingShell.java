@@ -26,7 +26,9 @@ import org.lsst.ccs.command.demo.DemoCommands;
  * the JAS based console. It uses a terminal emulator called gritty which I found
  * <a href="https://code.google.com/p/gritty/">here</a>. This does not seem very
  * complete or well supported, but perhaps adequate to our needs.
- *
+ * 
+ * //FIXME: Resizing not really working
+ * //FIXME: Whole application quits when window closed
  * @author tonyj
  */
 public class SwingShell {
@@ -35,8 +37,8 @@ public class SwingShell {
     private final JLineShell shell;
     private final JFrame frame;
 
-    SwingShell(CommandSet userCommands) throws IOException {
-        frame = new JFrame("Swing Shell");
+    public SwingShell(CommandSet userCommands, String title) throws IOException {
+        frame = new JFrame(title);
         terminal = new GrittyTerminal();
         TermPanel termPanel = terminal.getTermPanel();
         frame.setContentPane(terminal);
@@ -74,7 +76,7 @@ public class SwingShell {
 
     public static void main(String[] args) throws IOException {
         CommandSetBuilder builder = new CommandSetBuilder();
-        SwingShell swingShell = new SwingShell(builder.buildCommandSet(new DemoCommands()));
+        SwingShell swingShell = new SwingShell(builder.buildCommandSet(new DemoCommands()),"Swing Shell");
         swingShell.run();
     }
 

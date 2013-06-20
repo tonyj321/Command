@@ -87,7 +87,7 @@
     <repositories>
         <repository>
             <id>CCS maven2 public</id>
-            <url>https://dev.lsstcorp.org:8081/nexus/content/groups/ccs-maven2-public/</url>
+            <url>http://dev.lsstcorp.org:8081/nexus/content/groups/ccs-maven2-public/</url>
         </repository>
     </repositories>
 </project>

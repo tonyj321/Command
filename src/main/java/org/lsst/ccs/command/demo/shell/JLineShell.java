@@ -9,7 +9,7 @@ import jline.console.ConsoleReader;
 import jline.console.completer.Completer;
 import jline.console.history.History;
 import org.lsst.ccs.command.annotations.Command;
-import org.lsst.ccs.command.annotations.Parameter;
+import org.lsst.ccs.command.annotations.Argument;
 import org.lsst.ccs.command.Dictionary;
 import org.lsst.ccs.command.CommandInvocationException;
 import org.lsst.ccs.command.CommandSet;
@@ -123,7 +123,7 @@ public class JLineShell {
             }
         }
 
-        @Command(description = "Show the full stacktrace of the most recent error", abbrev = "st")
+        @Command(description = "Show the full stacktrace of the most recent error", alias = "st")
         public void stacktrace() {
             if (lastException != null) {
                 lastException.printStackTrace(printWriter);
@@ -131,7 +131,7 @@ public class JLineShell {
         }
 
         @Command(description = "Modify various settings")
-        public void set(@Parameter(name = "item") SetCommands what, @Parameter(name = "value") String value) {
+        public void set(@Argument(name = "item") SetCommands what, @Argument(name = "value") String value) {
             switch (what) {
                 case prompt:
                     reader.setPrompt(value);

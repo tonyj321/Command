@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import org.lsst.ccs.command.annotations.Command;
-import org.lsst.ccs.command.annotations.Parameter;
+import org.lsst.ccs.command.annotations.Argument;
 
 /**
  * Encapsulate the dictionary information for a single command and parameters.
@@ -16,7 +16,7 @@ import org.lsst.ccs.command.annotations.Parameter;
 public class DictionaryCommand implements Serializable {
 
     private final String description;
-    private final String abbreviation;
+    private final String aliases;
     private final DictionaryParameter[] params;
     private final Command.CommandType type;
     private final String name;
@@ -29,7 +29,7 @@ public class DictionaryCommand implements Serializable {
     
     DictionaryCommand(Method method, Command annotation) {
         this.description = annotation.description();
-        this.abbreviation = annotation.abbrev();
+        this.aliases = annotation.alias();
         this.type = annotation.type();
         this.name = annotation.name().isEmpty() ? method.getName() : annotation.name();
         this.hasVarArgs = method.isVarArgs();
@@ -41,11 +41,11 @@ public class DictionaryCommand implements Serializable {
 
         for (int i = 0; i < types.length; i++) {
 
-            String parName = "par" + i;
+            String parName = "arg" + i;
             String parDescription = "";
             for (Annotation a : parAnnotations[i]) {
-                if (a instanceof Parameter) {
-                    Parameter paramAnnotation = (Parameter) a;
+                if (a instanceof Argument) {
+                    Argument paramAnnotation = (Argument) a;
                     parName = paramAnnotation.name().isEmpty() ? parName : paramAnnotation.name();
                     parDescription = paramAnnotation.description();
                     break;
@@ -63,7 +63,7 @@ public class DictionaryCommand implements Serializable {
     }
 
     public String getAbbreviation() {
-        return abbreviation;
+        return aliases;
     }
 
     public DictionaryParameter[] getParams() {

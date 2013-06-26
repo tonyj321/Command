@@ -18,14 +18,21 @@ import java.lang.annotation.Target;
 public @interface Command {
 
     public static enum CommandType {
+
         QUERY,
         ACTION,
-        CONFIGURATION
+        CONFIGURATION,
+        ABORT
     }
+    // Some pre-defined levels, this list is not necessarily exhaustive, which is
+    // why we do not use an enumeration.
+    public static final int NORMAL = 0;
+    public static final int ENGINEERING1 = 1;
+    public static final int ENGINEERING2 = 2;
+    public static final int ENGINEERING3 = 3;
 
     /**
-     * Allows to override default command name, which is derived from method's
-     * name
+     * If not null it will replace the method's name as the command name.
      *
      * @return "" or null if default name is used, user-specified name
      * otherwise.
@@ -46,14 +53,22 @@ public @interface Command {
      * attribute is not set as well, the Shell takes the first letter of each
      * word (void selectUser() --- select-user --- su).
      *
-     * @return command's abbreviation or "" if not set.
+     * @return command's abbreviation(s) or "" if not set.
      */
-    String abbrev() default "";
+    String alias() default "";
 
     /**
-     * The command type.
+     * The CommandType of the Command
      *
      * @return The command type.
      */
-    CommandType type() default CommandType.QUERY;
+    CommandType type() default CommandType.ACTION;
+
+    /**
+     * Specify the level of the command. Only locks at the given level, or
+     * higher will have access to the command.
+     *
+     * @return the level of the Command. The default is zero.
+     */
+    int level() default NORMAL;
 }

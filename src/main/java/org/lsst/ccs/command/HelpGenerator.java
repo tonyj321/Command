@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import org.lsst.ccs.command.annotations.Command;
-import org.lsst.ccs.command.annotations.Parameter;
+import org.lsst.ccs.command.annotations.Argument;
 
 /**
  * Provides help based on information from a command dictionary.
@@ -42,7 +42,7 @@ public class HelpGenerator {
     }
 
     @Command(description = "Show help for a single command")
-    public void help(@Parameter(name = "command") String command) {
+    public void help(@Argument(name = "command") String command) {
         boolean foundCommand = false;
         for (DictionaryCommand def : dict) {
             if (def.getCommandName().equals(command)) {

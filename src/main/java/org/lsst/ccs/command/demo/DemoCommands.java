@@ -1,7 +1,7 @@
 package org.lsst.ccs.command.demo;
 
 import org.lsst.ccs.command.annotations.Command;
-import org.lsst.ccs.command.annotations.Parameter;
+import org.lsst.ccs.command.annotations.Argument;
 
 /**
  * A class designed to illustrate how a class can be annotated to accept
@@ -13,7 +13,7 @@ import org.lsst.ccs.command.annotations.Parameter;
 public class DemoCommands {
 
     @Command(description = "Get the temperature of a module")
-    public double getTemperature(@Parameter(name = "module", description = "module (0-9)") int module) {
+    public double getTemperature(@Argument(name = "module", description = "module (0-9)") int module) {
         if (module < 0 || module > 9) {
             throw new IllegalArgumentException("module < 0 or > 9");
         }
@@ -39,7 +39,7 @@ public class DemoCommands {
         THURSDAY, FRIDAY, SATURDAY 
     }
     @Command(description = "Convert day of week to an ordinal")
-    public int dayOfWeek(@Parameter(name="Day") Day day) {
+    public int dayOfWeek(@Argument(name="Day") Day day) {
         return day.ordinal();
     }
     
